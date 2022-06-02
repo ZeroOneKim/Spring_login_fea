@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()    //기본페이지
+                    .antMatchers("/", "/account/register").permitAll()    //기본페이지
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -46,13 +46,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)  //여기로 넘겨 받는다.
                 //.passwordEncoder(passwordEncoder())                       //***
-                .usersByUsernameQuery("select email,password,enabled "
+                .usersByUsernameQuery("select username, password, enabled "
                     + "from user "   //여백을 둬야 다음 where 절과 붙지 않음
                     + "where username = ?")
-                .authoritiesByUsernameQuery("select username, name "
+                .authoritiesByUsernameQuery("select u.username, r.name "
                     + "from user_auth ur inner join user u on ur.user_id = u.id "
                     + "inner join auth r on ur.auth_id = r.id "
-                    + "where email = ?");
+                    + "where u.username = ?");
     }
 
     @Bean

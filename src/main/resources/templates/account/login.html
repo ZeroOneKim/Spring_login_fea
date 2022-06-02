@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title> login-index </title>
@@ -8,16 +8,24 @@
 <body>
 
 <main class="form-signin w-100 m-auto">
-    <form>
+
+    <form th:action="@{/account/login}" method="post">
         <h1 class="h3 mb-3 fw-normal">로그인 창</h1>
+
+        <div role="alert" th:if="${param.error}"> <!--에러시 출력-->
+            Invalid username and password.
+        </div>
+        <div role="alert" th:if="${param.logout}" >
+            You have been logged out.
+        </div>
 
         <div class="form-floating">
             <input type="text" class="form-control" id="username" placeholder="아이디">
             <label for="username"> Username </label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호">
-            <label for="floatingPassword">  </label>
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="비밀번호">
+            <label for="floatingPassword"> password </label>
         </div>
 
         <div class="checkbox mb-3">
